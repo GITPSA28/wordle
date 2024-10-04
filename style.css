@@ -1,0 +1,100 @@
+:root {
+  --green: #6aaa64;
+  --grey: #787c7e;
+  --yellow: #c9b458;
+  --black: #1a1a1b;
+  --light-grey: #d3d6da;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+  gap: 16px;
+}
+.title {
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--black);
+}
+.title::first-letter {
+  color: var(--green);
+}
+.title span {
+  color: var(--yellow);
+}
+.game-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+.game-container .row {
+  display: flex;
+  gap: 5px;
+}
+.letter p {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--light-grey);
+  width: 3rem;
+  height: 3rem;
+  /* background-color: rgb(199, 199, 199); */
+}
+.letter.green p {
+  background-color: var(--green);
+  border: 2px solid var(--green);
+  color: white;
+}
+.letter.yellow p {
+  background-color: var(--yellow);
+  border: 2px solid var(--yellow);
+  color: white;
+}
+.letter.wrong p {
+  background-color: var(--grey);
+  border: 2px solid var(--grey);
+  color: white;
+}
+.keyboard {
+  width: min(100%, 400px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.key-row {
+  display: flex;
+  gap: 0.4rem;
+  width: 100%;
+  justify-content: center;
+}
+.key {
+  width: 100%;
+  border: none;
+}
+.key p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.2rem;
+  background-color: var(--light-grey);
+  cursor: pointer;
+}
+.key.green p {
+  background-color: var(--green);
+  color: white;
+}
+.key.yellow p {
+  background-color: var(--yellow);
+  color: white;
+}
+.key.wrong p {
+  background-color: var(--grey);
+  color: white;
+}

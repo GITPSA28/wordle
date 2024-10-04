@@ -1,17 +1,15 @@
-class View {
+export default class View {
   _data;
-  _parentContainer = document.getElementById("word");
-  renderWord(data) {
+
+  render(data) {
     if (data) this._data = data;
+    this._clear();
     this._parentContainer.insertAdjacentHTML(
       "afterbegin",
-      this._genereteMarkup()
+      this._generateMarkup()
     );
   }
-  _genereteMarkup() {
-    const markup = `<h1>${this._data}</h1>`;
-    return markup;
+  _clear() {
+    this._parentContainer.innerHTML = "";
   }
 }
-
-export default new View();
