@@ -1,9 +1,10 @@
-export const state = {
+export let state = {
   currentWord: "",
   gusses: [],
   currentGuess: [],
   guessIndex: 0,
   isGuessed: false,
+  isOver: false,
   greenKey: new Set(),
   yellowKey: new Set(),
   wrongKey: new Set(),
@@ -50,21 +51,19 @@ export const addCurrentGuess = function () {
         state.wrongKey.add(letter);
       }
     }
-    // console.log(state);
   });
   state.gusses.push(guess);
   state.guessIndex += 1;
-  if (
-    state.guessIndex === 6 ||
-    state.currentWord === state.currentGuess.join("")
-  )
+  if (state.currentWord === state.currentGuess.join("")) {
     state.isGuessed = true;
+    state.isOver = true;
+  }
+  if (state.guessIndex === 6) state.isOver = true;
 
   state.currentGuess = [];
 };
 export const addLetter = function (letter) {
-  if (state.isGuessed) return false;
-  //   if (!state.gusses[state.guessIndex]) state.gusses[state.guessIndex] = [];
+  if (state.isOver) return false;
   if (state.currentGuess.length < 5) {
     state.currentGuess.push(letter);
     return true;
@@ -72,8 +71,7 @@ export const addLetter = function (letter) {
   return false;
 };
 export const removeLetter = function () {
-  if (state.isGuessed) return false;
-  //   if (!state.gusses[state.guessIndex]) state.gusses[state.guessIndex] = [];
+  if (state.isOver) return false;
   if (state.currentGuess.length > 0) {
     state.currentGuess.pop();
     return true;
@@ -82,4 +80,17 @@ export const removeLetter = function () {
 };
 export const setCurrentWord = function (word) {
   state.currentWord = word;
+};
+export const restartGame = function () {
+  state = {
+    currentWord: "",
+    gusses: [],
+    currentGuess: [],
+    guessIndex: 0,
+    isGuessed: false,
+    isOver: false,
+    greenKey: new Set(),
+    yellowKey: new Set(),
+    wrongKey: new Set(),
+  };
 };

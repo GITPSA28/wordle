@@ -12,4 +12,11 @@ export default class View {
   _clear() {
     this._parentContainer.innerHTML = "";
   }
+  renderError(message, timeOut) {
+    this._errorContainer.innerHTML = message;
+    this._errorContainer.classList.remove("hidden");
+    setTimeout(() => {
+      this._errorContainer.classList.add("hidden");
+    }, timeOut * 1000);
+  }
 }

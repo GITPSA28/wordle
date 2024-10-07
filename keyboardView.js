@@ -5,25 +5,49 @@ class keboardView extends View {
   _keyRow = ["qwertyuiop", "asdfghjkl", "zxcvbnm"];
   _generateMarkup() {
     let mark = "";
-    this._keyRow.forEach((row) => {
+    for (let i = 0; i < this._keyRow.length; i++) {
       mark += "<div class='key-row'>";
-      row.split("").forEach((letter) => {
+      if (i === 2) {
         mark += `
-            <button class="key ${
-              this._data.greenKey.has(letter)
-                ? "green"
-                : this._data.yellowKey.has(letter)
-                ? "yellow"
-                : this._data.wrongKey.has(letter)
-                ? "wrong"
-                : ""
-            }">
-                <p>${letter.toUpperCase()}</p>
-            </button>`;
+          <button data-key='${
+            this._data.isOver ? "Restart" : "Enter"
+          }' class="key ${this._data.isOver ? "restart" : ""}">
+              <p>${this._data.isOver ? "RESTART" : "ENTER"}</p>
+          </button>`;
+      }
+      this._keyRow[i].split("").forEach((letter) => {
+        mark += `
+        <button data-key='${letter}' class="key ${
+          this._data.greenKey.has(letter)
+            ? "green"
+            : this._data.yellowKey.has(letter)
+            ? "yellow"
+            : this._data.wrongKey.has(letter)
+            ? "wrong"
+            : ""
+        }">
+            <p>${letter.toUpperCase()}</p>
+        </button>`;
       });
+      if (i === 2) {
+        mark += `
+      <button data-key='Backspace' class="key">
+          <p>Del</p>
+      </button>`;
+      }
       mark += "</div>";
-    });
+      // row.split("").forEach((letter) => {});
+    }
     return mark;
+  }
+  addHandlerKeyboard(handler) {
+    this._parentContainer.addEventListener("click", function (e) {
+      const btn = e.target.closest(".key");
+      if (!btn) return;
+      const key = btn.dataset.key;
+      console.log(key);
+      handler(key);
+    });
   }
 }
 export default new keboardView();

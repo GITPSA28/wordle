@@ -2,6 +2,7 @@ import View from "./view.js";
 
 class guessView extends View {
   _parentContainer = document.getElementById("game-container");
+  _errorContainer = document.querySelector(".error-message");
 
   _generateMarkup() {
     const markup = this._generateGameBoard();
@@ -39,7 +40,7 @@ class guessView extends View {
 
     for (let i = 0; i < 5; i++) {
       markup += `
-        <div class="letter">
+        <div class="letter ${word[i] ? "active" : ""}">
                 <p>${word[i]?.toUpperCase() || ""}</p>
             </div>`;
     }
