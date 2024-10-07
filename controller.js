@@ -49,7 +49,7 @@ const addGuess = function () {
   }
 };
 const displayKeyboardView = function () {
-  keyboardView.render({
+  keyboardView.update({
     greenKey: state.greenKey,
     yellowKey: state.yellowKey,
     wrongKey: state.wrongKey,
@@ -94,13 +94,19 @@ const keyPress = function (key) {
   addLetter(key.toLowerCase());
   displayGameView();
 };
-await setWord();
-console.log(state.currentWord);
-guessView.render({
-  curIndex: state.guessIndex,
-  gusses: state.gusses,
-  currentGuess: state.currentGuess,
-});
-// displayGameView();
-displayKeyboardView();
-keyboardView.addHandlerKeyboard(keyPress);
+(async function () {
+  await setWord();
+  console.log(state.currentWord);
+  guessView.render({
+    curIndex: state.guessIndex,
+    gusses: state.gusses,
+    currentGuess: state.currentGuess,
+  });
+  keyboardView.render({
+    greenKey: state.greenKey,
+    yellowKey: state.yellowKey,
+    wrongKey: state.wrongKey,
+    isOver: state.isOver,
+  });
+  keyboardView.addHandlerKeyboard(keyPress);
+})();

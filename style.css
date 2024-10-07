@@ -169,12 +169,14 @@ body {
   width: 100%;
   border: none;
 }
-.key p {
+.key p,
+.key.backspace {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 2.2rem;
   padding-inline: 8px;
+  font-weight: 500;
   background-color: var(--light-grey);
   cursor: pointer;
   border-radius: 4px;

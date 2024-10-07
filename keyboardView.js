@@ -1,3 +1,4 @@
+import { backSpaceIcon } from "./backspace.js";
 import View from "./view.js";
 
 class keboardView extends View {
@@ -31,8 +32,8 @@ class keboardView extends View {
       });
       if (i === 2) {
         mark += `
-      <button data-key='Backspace' class="key">
-          <p>Del</p>
+      <button data-key='Backspace' class="key backspace">
+          ${backSpaceIcon}
       </button>`;
       }
       mark += "</div>";
