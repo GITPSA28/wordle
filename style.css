@@ -35,7 +35,6 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.3s ease-in-out, opacity 0.3s linear;
-  /* display: none; */
 }
 .title {
   text-transform: uppercase;
@@ -74,25 +73,83 @@ body {
   border: 2px solid var(--light-grey);
   width: 3rem;
   height: 3rem;
-  /* background-color: rgb(199, 199, 199); */
 }
 .letter.active p {
   border: 2px solid var(--grey);
+}
+.letter.active.shake p {
+  animation: horizontal-shaking 0.3s;
 }
 .letter.green p {
   background-color: var(--green);
   border: 2px solid var(--green);
   color: white;
+  animation: flip-green 0.8s ease forwards;
 }
+
 .letter.yellow p {
   background-color: var(--yellow);
   border: 2px solid var(--yellow);
   color: white;
+  animation: flip-yellow 0.8s ease forwards;
 }
 .letter.wrong p {
   background-color: var(--grey);
   border: 2px solid var(--grey);
   color: white;
+  animation: flip 0.8s ease forwards;
+}
+@keyframes flip-green {
+  0% {
+    transform: scaleY(1);
+    color: var(--black);
+    background: white;
+    border: 2px solid var(--grey);
+  }
+  50% {
+    color: var(--black);
+    background: white;
+    border: 2px solid var(--grey);
+    transform: scaleY(0);
+  }
+  51% {
+    color: white;
+    background: var(--green);
+    border: 2px solid var(--green);
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+    color: white;
+    background: var(--green);
+    border: 2px solid var(--green);
+  }
+}
+@keyframes flip-yellow {
+  0% {
+    transform: scaleY(1);
+    color: var(--black);
+    background: white;
+    border: 2px solid var(--grey);
+  }
+  50% {
+    color: var(--black);
+    background: white;
+    border: 2px solid var(--grey);
+    transform: scaleY(0);
+  }
+  51% {
+    color: white;
+    background: var(--yellow);
+    border: 2px solid var(--yellow);
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+    color: white;
+    background: var(--yellow);
+    border: 2px solid var(--yellow);
+  }
 }
 .keyboard {
   width: min(95%, 400px);
@@ -121,6 +178,23 @@ body {
   background-color: var(--light-grey);
   cursor: pointer;
   border-radius: 4px;
+}
+@keyframes horizontal-shaking {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(5px);
+  }
+  50% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 .key.green p {
   background-color: var(--green);

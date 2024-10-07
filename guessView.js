@@ -15,9 +15,11 @@ class guessView extends View {
     this._data.gusses.forEach((word) => {
       markup += this._generateRowMarkup(word);
     });
-    // console.log(this._data.currentGuess);
     markup += this._data.currentGuess.length
-      ? this._generateCurrentRowMarkup(this._data.currentGuess)
+      ? this._generateCurrentRowMarkup(
+          this._data.currentGuess,
+          this._data.shake
+        )
       : "";
 
     for (let i = 0; i < empty; i++) markup += this._generateCurrentRowMarkup();
@@ -35,12 +37,12 @@ class guessView extends View {
     markup += "</div>";
     return markup;
   }
-  _generateCurrentRowMarkup(word = []) {
+  _generateCurrentRowMarkup(word = [], shake) {
     let markup = '<div class="row">';
 
     for (let i = 0; i < 5; i++) {
       markup += `
-        <div class="letter ${word[i] ? "active" : ""}">
+        <div class="letter ${word[i] ? "active" : ""} ${shake ? "shake" : ""}">
                 <p>${word[i]?.toUpperCase() || ""}</p>
             </div>`;
     }

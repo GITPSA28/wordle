@@ -14,19 +14,24 @@ const setWord = async function () {
   const word = await getWord();
   setCurrentWord(word);
 };
-const displayGameView = function () {
-  guessView.render({
+const displayGameView = function (shake = false) {
+  guessView.update({
     curIndex: state.guessIndex,
     gusses: state.gusses,
     currentGuess: state.currentGuess,
+    shake,
   });
   displayKeyboardView();
 };
 const addGuess = function () {
   if (state.isOver === true) return;
+  if (state.currentGuess.length < 5) {
+    guessView.renderError("Enter 5 letter word", 1);
+    return true;
+  }
   if (!checkWord(state.currentGuess.join(""))) {
     guessView.renderError("Not in word list", 1);
-    return;
+    return true;
   }
   addCurrentGuess();
   if (state.isGuessed === true) {
@@ -60,8 +65,7 @@ document.addEventListener("keydown", function (event) {
 });
 document.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    addGuess();
-    displayGameView();
+    displayGameView(addGuess());
   }
 });
 document.addEventListener("keydown", function (event) {
@@ -73,8 +77,7 @@ document.addEventListener("keydown", function (event) {
 
 const keyPress = function (key) {
   if (key === "Enter") {
-    addGuess();
-    displayGameView();
+    displayGameView(addGuess());
     return;
   }
   if (key === "Backspace") {
@@ -93,6 +96,11 @@ const keyPress = function (key) {
 };
 await setWord();
 console.log(state.currentWord);
-displayGameView();
+guessView.render({
+  curIndex: state.guessIndex,
+  gusses: state.gusses,
+  currentGuess: state.currentGuess,
+});
+// displayGameView();
 displayKeyboardView();
 keyboardView.addHandlerKeyboard(keyPress);

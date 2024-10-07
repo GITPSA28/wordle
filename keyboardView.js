@@ -36,7 +36,6 @@ class keboardView extends View {
       </button>`;
       }
       mark += "</div>";
-      // row.split("").forEach((letter) => {});
     }
     return mark;
   }
@@ -45,7 +44,6 @@ class keboardView extends View {
       const btn = e.target.closest(".key");
       if (!btn) return;
       const key = btn.dataset.key;
-      console.log(key);
       handler(key);
     });
   }
