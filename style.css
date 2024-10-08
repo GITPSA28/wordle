@@ -4,12 +4,23 @@
   --yellow: #c9b458;
   --black: #1a1a1b;
   --light-grey: #d3d6da;
+  --font-primary: #1a1a1b;
+  --font-secondary: white;
+  --grey-primary: #d3d6da;
+  --grey-secondary: #787c7e;
+  --font-key: white;
+}
+.dark {
+  --font-primary: white;
+  --font-secondary: #1a1a1b;
+  --grey-primary: #787c7e;
+  --grey-secondary: #3e3e3e;
 }
 * {
   margin: 0;
   padding: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: #1a1a1b;
+  color: var(--font-primary);
 }
 body {
   display: flex;
@@ -18,13 +29,16 @@ body {
   margin-top: 16px;
   gap: 16px;
 }
+.dark {
+  background-color: rgb(26, 26, 26);
+}
 .error-message {
   font-weight: bold;
   position: absolute;
   z-index: 10;
   top: 6rem;
-  background-color: var(--black);
-  color: white;
+  background-color: var(--font-primary);
+  color: var(--font-secondary);
   padding: 0.8rem 1rem;
   border-radius: 0.4rem;
   visibility: visible;
@@ -38,7 +52,7 @@ body {
 .title {
   text-transform: uppercase;
   letter-spacing: 4px;
-  color: var(--black);
+  color: var(--font-primary);
 }
 .title::first-letter {
   color: var(--green);
@@ -50,6 +64,7 @@ body {
   content: "BETA";
   position: absolute;
   font-size: xx-small;
+  color: var(--black);
   background-color: rgb(247, 247, 68);
   padding: 2px 4px;
 }
@@ -69,12 +84,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--light-grey);
+  color: var(--font-primary);
+  border: 2px solid var(--grey-primary);
   width: 3rem;
   height: 3rem;
 }
 .letter.active p {
-  border: 2px solid var(--grey);
+  border: 2px solid var(--grey-secondary);
   animation: zoomin 0.1s ease-in-out;
 }
 @keyframes zoomin {
@@ -94,44 +110,44 @@ body {
 .letter.green p {
   background-color: var(--green);
   border: 2px solid var(--green);
-  color: white;
+  color: var(--font-key);
   animation: flip-green 0.8s ease forwards;
 }
 
 .letter.yellow p {
   background-color: var(--yellow);
   border: 2px solid var(--yellow);
-  color: white;
+  color: var(--font-key);
   animation: flip-yellow 0.8s ease forwards;
 }
 .letter.wrong p {
-  background-color: var(--grey);
-  border: 2px solid var(--grey);
-  color: white;
+  background-color: var(--grey-secondary);
+  border: 2px solid var(--grey-secondary);
+  color: var(--font-key);
   animation: flip 0.8s ease forwards;
 }
 @keyframes flip-green {
   0% {
     transform: scaleY(1);
-    color: var(--black);
-    background: white;
-    border: 2px solid var(--grey);
+    color: var(--font-primary);
+    background: none;
+    border: 2px solid var(--grey-secondary);
   }
   50% {
-    color: var(--black);
-    background: white;
-    border: 2px solid var(--grey);
+    color: var(--font-primary);
+    background: none;
+    border: 2px solid var(--grey-secondary);
     transform: scaleY(0);
   }
   51% {
-    color: white;
+    color: var(--font-key);
     background: var(--green);
     border: 2px solid var(--green);
     transform: scaleY(0);
   }
   100% {
     transform: scaleY(1);
-    color: white;
+    color: var(--font-key);
     background: var(--green);
     border: 2px solid var(--green);
   }
@@ -139,25 +155,25 @@ body {
 @keyframes flip-yellow {
   0% {
     transform: scaleY(1);
-    color: var(--black);
+    color: var(--font-primary);
     background: none;
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey-secondary);
   }
   50% {
-    color: var(--black);
+    color: var(--font-primary);
     background: none;
-    border: 2px solid var(--grey);
+    border: 2px solid var(--grey-secondary);
     transform: scaleY(0);
   }
   51% {
-    color: white;
+    color: var(--font-key);
     background: var(--yellow);
     border: 2px solid var(--yellow);
     transform: scaleY(0);
   }
   100% {
     transform: scaleY(1);
-    color: white;
+    color: var(--font-key);
     background: var(--yellow);
     border: 2px solid var(--yellow);
   }
@@ -176,6 +192,14 @@ body {
   width: 100%;
   justify-content: center;
 }
+.key-row:nth-child(2)::after {
+  content: " ";
+  width: 35%;
+}
+.key-row:nth-child(2)::before {
+  content: " ";
+  width: 35%;
+}
 .key {
   width: 100%;
   border: none;
@@ -189,7 +213,9 @@ body {
   height: 2.2rem;
   padding-inline: 8px;
   font-weight: 500;
-  background-color: var(--light-grey);
+  color: var(--font-primary);
+  fill: var(--font-primary);
+  background-color: var(--grey-primary);
   cursor: pointer;
   border-radius: 4px;
 }
@@ -219,7 +245,7 @@ body {
   color: white;
 }
 .key.wrong p {
-  background-color: var(--grey);
+  background-color: var(--grey-secondary);
   color: white;
 }
 .key.restart p {
