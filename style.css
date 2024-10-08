@@ -19,7 +19,6 @@ body {
   gap: 16px;
 }
 .error-message {
-  /* display: block; */
   font-weight: bold;
   position: absolute;
   z-index: 10;
@@ -76,6 +75,18 @@ body {
 }
 .letter.active p {
   border: 2px solid var(--grey);
+  animation: zoomin 0.1s ease-in-out;
+}
+@keyframes zoomin {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 .letter.active.shake p {
   animation: horizontal-shaking 0.3s;
@@ -129,12 +140,12 @@ body {
   0% {
     transform: scaleY(1);
     color: var(--black);
-    background: white;
+    background: none;
     border: 2px solid var(--grey);
   }
   50% {
     color: var(--black);
-    background: white;
+    background: none;
     border: 2px solid var(--grey);
     transform: scaleY(0);
   }
@@ -168,6 +179,7 @@ body {
 .key {
   width: 100%;
   border: none;
+  background: none;
 }
 .key p,
 .key.backspace {
