@@ -67,6 +67,7 @@ body {
 }
 .settings-btn svg,
 .instruction-btn svg {
+  width: 25px;
   fill: var(--grey);
 }
 .title {
@@ -118,6 +119,9 @@ body {
 }
 .settings-close {
   cursor: pointer;
+  width: 25px;
+}
+.settings-close svg {
   width: 25px;
 }
 .setting-single {
