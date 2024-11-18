@@ -2,17 +2,21 @@ import {
   addCurrentGuess,
   addLetter,
   checkWord,
+  fetchWords,
   getWord,
   removeLetter,
   restartGame,
   setCurrentWord,
+  setDifficulty,
   state,
 } from "./model.js";
 import guessView from "./guessView.js";
 import keyboardView from "./keyboardView.js";
-const setWord = async function () {
-  const word = await getWord();
+import settingsView from "./settingsView.js";
+const setWord = function () {
+  const word = getWord();
   setCurrentWord(word);
+  console.log(state.currentWord);
 };
 const displayGameView = function (shake = false) {
   guessView.update({
@@ -44,7 +48,7 @@ const addGuess = function () {
   if (!state.isGuessed && state.isOver) {
     guessView.renderError(
       `Correct answer is ${state.currentWord.toUpperCase()}`,
-      10
+      3
     );
   }
 };
@@ -74,8 +78,13 @@ document.addEventListener("keydown", function (event) {
     displayGameView();
   }
 });
-
-const keyPress = function (key) {
+const restart = function (params) {
+  restartGame();
+  setWord();
+  state.difficulty === "easy" && addLetter(state.currentWord[0]);
+  displayGameView();
+};
+const keyPress = async function (key) {
   if (key === "Enter") {
     displayGameView(addGuess());
     return;
@@ -86,17 +95,33 @@ const keyPress = function (key) {
     return;
   }
   if (key === "Restart") {
-    restartGame();
-    displayGameView();
-    setWord();
+    restart();
     return;
   }
   addLetter(key.toLowerCase());
   displayGameView();
 };
+const settingsBtn = document.querySelector(".settings-btn");
+const settingsContainer = document.querySelector(".settings-container");
+const closeSettings = function () {
+  settingsView.render({ visible: false });
+  settingsContainer.classList.add("hidden");
+};
+settingsBtn.addEventListener("click", function (e) {
+  settingsContainer.classList.remove("hidden");
+  settingsView.render({
+    visible: true,
+    inProgress: state.guessIndex > 0 && !state.isOver,
+    level: state.difficulty,
+  });
+  settingsView.addHandlerDifficultySelect(setDifficulty, restart);
+  settingsView.addHandlerCloseSettings(closeSettings);
+});
+
 (async function () {
-  await setWord();
-  console.log(state.currentWord);
+  await fetchWords();
+  setWord();
+  state.difficulty === "easy" && addLetter(state.currentWord[0]);
   guessView.render({
     curIndex: state.guessIndex,
     gusses: state.gusses,

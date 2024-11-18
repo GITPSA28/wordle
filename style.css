@@ -49,6 +49,26 @@ body {
   opacity: 0;
   transition: visibility 0.3s ease-in-out, opacity 0.3s linear;
 }
+.main-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(95%, 25rem);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--grey-primary);
+}
+
+.settings-btn,
+.instruction-btn {
+  width: 25px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.settings-btn svg,
+.instruction-btn svg {
+  fill: var(--grey);
+}
 .title {
   text-transform: uppercase;
   letter-spacing: 4px;
@@ -66,6 +86,52 @@ body {
   font-size: xx-small;
   color: var(--black);
   background-color: rgb(247, 247, 68);
+  padding: 2px 4px;
+}
+
+.settings-container {
+  position: absolute;
+  top: 0;
+  height: 100dvh;
+  width: 100%;
+  background-color: var(--font-secondary);
+  color: var(--font-primary);
+  transition: visibility 0.1s ease-in-out, opacity 0.1s linear;
+}
+.settings-main {
+  width: min(95%, 20rem);
+  margin-left: auto;
+  margin-right: auto;
+}
+.settings-head {
+  display: flex;
+  justify-content: space-between;
+  padding-block: 16px;
+}
+.settings-title {
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+}
+.settings-close {
+  cursor: pointer;
+  width: 25px;
+}
+.setting-single {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+}
+.setting-label {
+  font-weight: 500;
+}
+.setting-input select {
+  background-color: var(--font-secondary);
+  cursor: pointer;
+  border-radius: 5px;
   padding: 2px 4px;
 }
 .game-container {
@@ -249,7 +315,7 @@ body {
   color: white;
 }
 .key.restart p {
-  background-color: red;
-  box-shadow: 0px 0px 5px 0px rgba(255, 41, 41, 0.69);
+  background-color: #f03e3e;
+  box-shadow: 0px 0px 5px 0px #f03e3eb8;
   color: white;
 }

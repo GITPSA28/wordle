@@ -8,14 +8,27 @@ export let state = {
   greenKey: new Set(),
   yellowKey: new Set(),
   wrongKey: new Set(),
+  difficulty: "easy",
 };
 let _words;
-export const getWord = async function () {
+let _easyWords;
+export const fetchWords = async function () {
   const res = await fetch("./words.json");
   const data = await res.json();
   _words = [...data];
-  const randomIndex = Math.floor(Math.random() * data.length + 1);
-  return data[randomIndex];
+  const resEasy = await fetch("./easyWords.json");
+  const dataEasy = await resEasy.json();
+  _easyWords = [...dataEasy];
+};
+export const getWord = function () {
+  if (state.difficulty === "easy") {
+    const randomIndex = Math.floor(Math.random() * _easyWords.length + 1);
+    return _easyWords[randomIndex];
+  }
+  if (state.difficulty === "normal") {
+    const randomIndex = Math.floor(Math.random() * _words.length + 1);
+    return _words[randomIndex];
+  }
 };
 export const checkWord = function (word) {
   return _words.includes(word);
@@ -81,16 +94,17 @@ export const removeLetter = function () {
 export const setCurrentWord = function (word) {
   state.currentWord = word;
 };
+export const setDifficulty = function (difficulty) {
+  state.difficulty = difficulty;
+};
 export const restartGame = function () {
-  state = {
-    currentWord: "",
-    gusses: [],
-    currentGuess: [],
-    guessIndex: 0,
-    isGuessed: false,
-    isOver: false,
-    greenKey: new Set(),
-    yellowKey: new Set(),
-    wrongKey: new Set(),
-  };
+  state.currentWord = "";
+  state.gusses = [];
+  state.currentGuess = [];
+  state.guessIndex = 0;
+  state.isGuessed = false;
+  state.isOver = false;
+  state.greenKey = new Set();
+  state.yellowKey = new Set();
+  state.wrongKey = new Set();
 };
