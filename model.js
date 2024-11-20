@@ -1,3 +1,7 @@
+import { getLocalData, setLocalData } from "./helper.js";
+let _words;
+let _easyWords;
+
 export let state = {
   currentWord: "",
   gusses: [],
@@ -10,8 +14,69 @@ export let state = {
   wrongKey: new Set(),
   difficulty: "easy",
 };
-let _words;
-let _easyWords;
+const stats_default = {
+  currentStreak: 0,
+  maxStreak: 0,
+  guess_distribution: {
+    easy: [0, 0, 0, 0, 0, 0],
+    normal: [0, 0, 0, 0, 0, 0],
+  },
+  played: 0,
+  win: 0,
+};
+export const updateLocalStats = function (updateFunction) {
+  const stats = getLocalData("guessduo_stats");
+  const updatedStats = stats ? updateFunction(stats) : updateFunction();
+  setLocalData("guessduo_stats", updatedStats);
+};
+export const updateStats = function (stats = stats_default) {
+  if (!state.isOver) return;
+  if (state.isGuessed) {
+    stats.win += 1;
+    stats.currentStreak += 1;
+    stats.maxStreak =
+      stats.currentStreak > stats.maxStreak
+        ? stats.currentStreak
+        : stats.maxStreak;
+    stats.guess_distribution[state.difficulty][state.guessIndex - 1] += 1;
+  } else {
+    stats.currentStreak = 0;
+  }
+  return stats;
+};
+
+export const updateGamesPlayed = function (stats = stats_default) {
+  stats.played += 1;
+  return stats;
+};
+
+export const getStatsDataUI = function () {
+  const localStats = getLocalData("guessduo_stats");
+  const stats = localStats ? localStats : stats_default;
+  const guesses = { ...stats.guess_distribution };
+  const guessesWidths = {};
+  for (const [key, value] of Object.entries(guesses)) {
+    const max = Math.max(...guesses[key]);
+    guessesWidths[key] = [];
+    value.forEach(function (val) {
+      const width = val === 0 ? "auto" : Math.round((val / max) * 100) + "%";
+      guessesWidths[key].push(width);
+    });
+  }
+  const statsUI = {
+    ...stats,
+    winPercent:
+      stats.played > 0 ? Math.round((stats.win / stats.played) * 100) : 0,
+    guessesWidths,
+    difficulty: state.difficulty,
+  };
+  return statsUI;
+};
+export const getCurrentStreak = function () {
+  const localStats = getLocalData("guessduo_stats");
+  if (localStats) return localStats.currentStreak;
+  return 0;
+};
 export const fetchWords = async function () {
   const res = await fetch("./words.json");
   const data = await res.json();
