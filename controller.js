@@ -3,16 +3,24 @@ import {
   addLetter,
   checkWord,
   fetchWords,
+  getCurrentStreak,
+  getStatsDataUI,
   getWord,
   removeLetter,
   restartGame,
   setCurrentWord,
   setDifficulty,
   state,
+  updateGamesPlayed,
+  updateLocalStats,
+  updateStats,
 } from "./model.js";
 import guessView from "./guessView.js";
 import keyboardView from "./keyboardView.js";
 import settingsView from "./settingsView.js";
+import statsView from "./statsView.js";
+import headerView from "./headerView.js";
+
 const setWord = function () {
   const word = getWord();
   setCurrentWord(word);
@@ -38,6 +46,9 @@ const addGuess = function () {
     return true;
   }
   addCurrentGuess();
+  if (state.guessIndex === 1) {
+    updateLocalStats(updateGamesPlayed);
+  }
   if (state.isGuessed === true) {
     confetti({
       particleCount: 100,
@@ -50,6 +61,12 @@ const addGuess = function () {
       `Correct answer is ${state.currentWord.toUpperCase()}`,
       3
     );
+  }
+  if (state.isOver) {
+    updateLocalStats(updateStats);
+    headerView.update({
+      streak: getCurrentStreak(),
+    });
   }
 };
 const displayKeyboardView = function () {
@@ -101,14 +118,11 @@ const keyPress = async function (key) {
   addLetter(key.toLowerCase());
   displayGameView();
 };
-const settingsBtn = document.querySelector(".settings-btn");
-const settingsContainer = document.querySelector(".settings-container");
+
 const closeSettings = function () {
   settingsView.render({ visible: false });
-  settingsContainer.classList.add("hidden");
 };
-settingsBtn.addEventListener("click", function (e) {
-  settingsContainer.classList.remove("hidden");
+const openSettings = function () {
   settingsView.render({
     visible: true,
     inProgress: state.guessIndex > 0 && !state.isOver,
@@ -116,12 +130,23 @@ settingsBtn.addEventListener("click", function (e) {
   });
   settingsView.addHandlerDifficultySelect(setDifficulty, restart);
   settingsView.addHandlerCloseSettings(closeSettings);
-});
-
+};
+const openStats = function () {
+  statsView.render({ ...getStatsDataUI(), visible: true });
+  statsView.addHandlerCloseModel(closeStats);
+};
+const closeStats = function () {
+  statsView.render({ visible: false });
+};
 (async function () {
   await fetchWords();
   setWord();
   state.difficulty === "easy" && addLetter(state.currentWord[0]);
+  headerView.render({
+    streak: getCurrentStreak(),
+  });
+  headerView.addHandlerOpenStats(openStats);
+  headerView.addHandlerOpenSettings(openSettings);
   guessView.render({
     curIndex: state.guessIndex,
     gusses: state.gusses,

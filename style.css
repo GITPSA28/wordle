@@ -2,6 +2,8 @@
   --green: #6aaa64;
   --grey: #787c7e;
   --yellow: #c9b458;
+  --gold: #fcc419;
+  --orange: #fd7e14;
   --black: #1a1a1b;
   --light-grey: #d3d6da;
   --font-primary: #1a1a1b;
@@ -11,7 +13,7 @@
   --font-key: white;
 }
 .dark {
-  --font-primary: white;
+  --font-primary: #f3f3f3;
   --font-secondary: #1a1a1b;
   --grey-primary: #787c7e;
   --grey-secondary: #3e3e3e;
@@ -57,9 +59,13 @@ body {
   padding-bottom: 10px;
   border-bottom: 1px solid var(--grey-primary);
 }
-
+.tools-left {
+  display: flex;
+  gap: 16px;
+}
 .settings-btn,
-.instruction-btn {
+.instruction-btn,
+.stats-btn {
   width: 25px;
   display: flex;
   align-items: center;
@@ -69,6 +75,21 @@ body {
 .instruction-btn svg {
   width: 25px;
   fill: var(--grey);
+}
+.stats-btn {
+  width: auto;
+  gap: 6px;
+}
+.stats-btn svg {
+  width: 30px;
+  fill: var(--orange);
+}
+.stats-btn.grey svg {
+  fill: var(--grey);
+}
+.current-streak {
+  font-weight: bold;
+  font-size: 1.4rem;
 }
 .title {
   text-transform: uppercase;
@@ -137,6 +158,136 @@ body {
   cursor: pointer;
   border-radius: 5px;
   padding: 2px 4px;
+}
+.overlay {
+  top: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #787c7e49;
+}
+.model {
+  position: relative;
+  padding: 10px;
+  padding-block: 30px;
+  width: min(90%, 25rem);
+  background-color: var(--font-secondary);
+  color: var(--font-primary);
+  border-radius: 8px;
+}
+.model-header {
+  display: flex;
+  justify-content: space-between;
+}
+.model-title {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+.model-close {
+  width: 25px;
+}
+.model-close svg {
+  cursor: pointer;
+}
+.stats-all {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.stats-single {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 70px;
+}
+.stats-single-main {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 10px;
+}
+.stats-icon {
+  display: flex;
+  align-items: center;
+}
+.stats-num {
+  display: flex;
+  align-items: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+.stats-title {
+  font-size: 12px;
+  width: 50px;
+}
+.stats-icon svg {
+  width: 20px;
+}
+.stats-icon.yellow svg {
+  fill: var(--yellow);
+}
+.stats-icon.gold svg {
+  fill: var(--gold);
+}
+.stats-icon.orange svg {
+  fill: var(--orange);
+}
+.stats-icon.grey svg {
+  fill: var(--grey);
+}
+.stats-icon.outline svg {
+  width: 20px;
+  stroke: var(--green);
+  fill: none;
+}
+.guesses-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: 20px;
+}
+.guesses-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.guesses-graph-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 70%;
+}
+.guesses-single {
+  display: flex;
+  justify-content: start;
+  gap: 5px;
+  width: 100%;
+  font-size: 14px;
+}
+.dist-row {
+  display: flex;
+  align-items: center;
+  height: 22px;
+}
+.graph-single {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  height: 22px;
+  width: 50%;
+  padding-inline: 6px;
+  background-color: var(--grey-secondary);
+}
+.graph-num {
+  font-weight: 500;
+  color: #f3f3f3;
 }
 .game-container {
   display: flex;

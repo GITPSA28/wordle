@@ -48,11 +48,15 @@ class settingsView extends View {
     });
   }
   addHandlerCloseSettings(handler) {
-    this._parentContainer.addEventListener("click", function (e) {
-      const btn = e.target.closest(".settings-close");
-      if (!btn) return;
-      handler();
-    });
+    this._parentContainer.addEventListener(
+      "click",
+      function (e) {
+        const btn = e.target.closest(".settings-close");
+        if (!btn) return;
+        handler();
+        this._parentContainer.classList.add("hidden");
+      }.bind(this)
+    );
   }
 }
 export default new settingsView();
