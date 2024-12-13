@@ -1,20 +1,4 @@
-import {
-  addCurrentGuess,
-  addLetter,
-  checkWord,
-  fetchWords,
-  getCurrentStreak,
-  getStatsDataUI,
-  getWord,
-  removeLetter,
-  restartGame,
-  setCurrentWord,
-  setDifficulty,
-  state,
-  updateGamesPlayed,
-  updateLocalStats,
-  updateStats,
-} from "./model.js";
+import * as model from "./model.js";
 import guessView from "./guessView.js";
 import keyboardView from "./keyboardView.js";
 import settingsView from "./settingsView.js";
@@ -22,65 +6,65 @@ import statsView from "./statsView.js";
 import headerView from "./headerView.js";
 
 const setWord = function () {
-  const word = getWord();
-  setCurrentWord(word);
-  console.log(state.currentWord);
+  const word = model.getWord();
+  model.setCurrentWord(word);
+  console.log(model.state.currentWord);
 };
 const displayGameView = function (shake = false) {
   guessView.update({
-    curIndex: state.guessIndex,
-    gusses: state.gusses,
-    currentGuess: state.currentGuess,
+    curIndex: model.state.guessIndex,
+    gusses: model.state.gusses,
+    currentGuess: model.state.currentGuess,
     shake,
   });
   displayKeyboardView();
 };
 const addGuess = function () {
-  if (state.isOver === true) return;
-  if (state.currentGuess.length < 5) {
+  if (model.state.isOver === true) return;
+  if (model.state.currentGuess.length < 5) {
     guessView.renderError("Enter 5 letter word", 1);
     return true;
   }
-  if (!checkWord(state.currentGuess.join(""))) {
+  if (!model.checkWord(model.state.currentGuess.join(""))) {
     guessView.renderError("Not in word list", 1);
     return true;
   }
-  addCurrentGuess();
-  if (state.guessIndex === 1) {
-    updateLocalStats(updateGamesPlayed);
+  model.addCurrentGuess();
+  if (model.state.guessIndex === 1) {
+    model.updateLocalStats(model.updateGamesPlayed);
   }
-  if (state.isGuessed === true) {
+  if (model.state.isGuessed === true) {
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
     });
   }
-  if (!state.isGuessed && state.isOver) {
+  if (!model.state.isGuessed && model.state.isOver) {
     guessView.renderError(
-      `Correct answer is ${state.currentWord.toUpperCase()}`,
+      `Correct answer is ${model.state.currentWord.toUpperCase()}`,
       3
     );
   }
-  if (state.isOver) {
-    updateLocalStats(updateStats);
+  if (model.state.isOver) {
+    model.updateLocalStats(model.updateStats);
     headerView.update({
-      streak: getCurrentStreak(),
+      streak: model.getCurrentStreak(),
     });
   }
 };
 const displayKeyboardView = function () {
   keyboardView.update({
-    greenKey: state.greenKey,
-    yellowKey: state.yellowKey,
-    wrongKey: state.wrongKey,
-    isOver: state.isOver,
+    greenKey: model.state.greenKey,
+    yellowKey: model.state.yellowKey,
+    wrongKey: model.state.wrongKey,
+    isOver: model.state.isOver,
   });
 };
 
 document.addEventListener("keydown", function (event) {
   if (/^[a-zA-Z]$/.test(event.key)) {
-    addLetter(event.key.toLowerCase());
+    model.addLetter(event.key.toLowerCase());
     displayGameView();
   }
 });
@@ -91,14 +75,15 @@ document.addEventListener("keydown", function (event) {
 });
 document.addEventListener("keydown", function (event) {
   if (event.key === "Backspace") {
-    removeLetter();
+    model.removeLetter();
     displayGameView();
   }
 });
 const restart = function (params) {
-  restartGame();
+  model.restartGame();
   setWord();
-  state.difficulty === "easy" && addLetter(state.currentWord[0]);
+  model.state.difficulty === "easy" &&
+    model.addLetter(model.state.currentWord[0]);
   displayGameView();
 };
 const keyPress = async function (key) {
@@ -107,7 +92,7 @@ const keyPress = async function (key) {
     return;
   }
   if (key === "Backspace") {
-    removeLetter();
+    model.removeLetter();
     displayGameView();
     return;
   }
@@ -115,7 +100,7 @@ const keyPress = async function (key) {
     restart();
     return;
   }
-  addLetter(key.toLowerCase());
+  model.addLetter(key.toLowerCase());
   displayGameView();
 };
 
@@ -125,38 +110,39 @@ const closeSettings = function () {
 const openSettings = function () {
   settingsView.render({
     visible: true,
-    inProgress: state.guessIndex > 0 && !state.isOver,
-    level: state.difficulty,
+    inProgress: model.state.guessIndex > 0 && !model.state.isOver,
+    level: model.state.difficulty,
   });
-  settingsView.addHandlerDifficultySelect(setDifficulty, restart);
+  settingsView.addHandlerDifficultySelect(model.setDifficulty, restart);
   settingsView.addHandlerCloseSettings(closeSettings);
 };
 const openStats = function () {
-  statsView.render({ ...getStatsDataUI(), visible: true });
+  statsView.render({ ...model.getStatsDataUI(), visible: true });
   statsView.addHandlerCloseModel(closeStats);
 };
 const closeStats = function () {
   statsView.render({ visible: false });
 };
 (async function () {
-  await fetchWords();
+  await model.fetchWords();
   setWord();
-  state.difficulty === "easy" && addLetter(state.currentWord[0]);
+  model.state.difficulty === "easy" &&
+    model.addLetter(model.state.currentWord[0]);
   headerView.render({
-    streak: getCurrentStreak(),
+    streak: model.getCurrentStreak(),
   });
   headerView.addHandlerOpenStats(openStats);
   headerView.addHandlerOpenSettings(openSettings);
   guessView.render({
-    curIndex: state.guessIndex,
-    gusses: state.gusses,
-    currentGuess: state.currentGuess,
+    curIndex: model.state.guessIndex,
+    gusses: model.state.gusses,
+    currentGuess: model.state.currentGuess,
   });
   keyboardView.render({
-    greenKey: state.greenKey,
-    yellowKey: state.yellowKey,
-    wrongKey: state.wrongKey,
-    isOver: state.isOver,
+    greenKey: model.state.greenKey,
+    yellowKey: model.state.yellowKey,
+    wrongKey: model.state.wrongKey,
+    isOver: model.state.isOver,
   });
   keyboardView.addHandlerKeyboard(keyPress);
 })();
