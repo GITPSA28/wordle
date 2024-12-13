@@ -96,7 +96,7 @@ export const getWord = function () {
   }
 };
 export const checkWord = function (word) {
-  return _words.includes(word);
+  return _words.includes(word) || _easyWords.includes(word);
 };
 export const addCurrentGuess = function () {
   let cur = state.currentWord.split("");
