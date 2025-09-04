@@ -69,7 +69,10 @@ document.addEventListener('keydown', function (event) {
     }
 });
 document.addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
+    if (
+        event.key === 'Enter' &&
+        document.activeElement.dataset.key !== 'Enter'
+    ) {
         displayGameView(addGuess());
     }
 });
