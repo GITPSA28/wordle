@@ -1,14 +1,16 @@
-import View from "./view.js";
+import View from './view.js';
 
 class headerView extends View {
-  _parentContainer = document.getElementById("main-head");
-  _settingsContainer = document.querySelector(".settings-container");
-  _statsContainer = document.getElementById("model-container");
-  _generateMarkup() {
-    let mark = `
+    _parentContainer = document.getElementById('main-head');
+    _settingsContainer = document.querySelector('.settings-container');
+    _statsContainer = document.getElementById('model-container');
+    _generateMarkup() {
+        let mark = `
     <div class="tools-left">
             
-            <div class="stats-btn ${this._data.streak < 2 ? "grey" : ""}">
+            <div tabindex="0" class="stats-btn ${
+                this._data.streak < 2 ? 'grey' : ''
+            }">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                     <path fill-rule="evenodd"
                         d="M12.963 2.286a.75.75 0 0 0-1.071-.136 9.742 9.742 0 0 0-3.539 6.176 7.547 7.547 0 0 1-1.705-1.715.75.75 0 0 0-1.152-.082A9 9 0 1 0 15.68 4.534a7.46 7.46 0 0 1-2.717-2.248ZM15.75 14.25a3.75 3.75 0 1 1-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 0 1 1.925-3.546 3.75 3.75 0 0 1 3.255 3.718Z"
@@ -23,7 +25,7 @@ class headerView extends View {
         <h1 class="title">
             Guess <span>D</span>uo
         </h1>
-        <div class="tools">
+        <div class="tools" tabindex="0">
             <div class="settings-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
                     <path fill-rule="evenodd"
@@ -34,31 +36,31 @@ class headerView extends View {
             </div>
         </div>
     `;
-    return mark;
-  }
+        return mark;
+    }
 
-  addHandlerOpenStats(handler) {
-    this._parentContainer.addEventListener(
-      "click",
-      function (e) {
-        const btn = e.target.closest(".stats-btn");
-        if (!btn) return;
+    addHandlerOpenStats(handler) {
+        this._parentContainer.addEventListener(
+            'click',
+            function (e) {
+                const btn = e.target.closest('.stats-btn');
+                if (!btn) return;
 
-        handler();
-        this._statsContainer.classList.toggle("hidden");
-      }.bind(this)
-    );
-  }
-  addHandlerOpenSettings(handler) {
-    this._parentContainer.addEventListener(
-      "click",
-      function (e) {
-        const btn = e.target.closest(".settings-btn");
-        if (!btn) return;
-        handler();
-        this._settingsContainer.classList.toggle("hidden");
-      }.bind(this)
-    );
-  }
+                handler();
+                this._statsContainer.classList.toggle('hidden');
+            }.bind(this),
+        );
+    }
+    addHandlerOpenSettings(handler) {
+        this._parentContainer.addEventListener(
+            'click',
+            function (e) {
+                const btn = e.target.closest('.settings-btn');
+                if (!btn) return;
+                handler();
+                this._settingsContainer.classList.toggle('hidden');
+            }.bind(this),
+        );
+    }
 }
 export default new headerView();
