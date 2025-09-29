@@ -18,7 +18,7 @@ class keboardView extends View {
             }
             this._keyRow[i].split('').forEach((letter) => {
                 mark += `
-        <button data-key='${letter}' class="key ${
+        <button data-key='${letter}' tabindex="-1" class="key ${
                     this._data.greenKey.has(letter)
                         ? 'green'
                         : this._data.yellowKey.has(letter)
